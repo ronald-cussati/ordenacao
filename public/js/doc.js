@@ -179,6 +179,7 @@
 
     ED.carregarDados().then(function (d) {
       ambiente(d); fatores(d); testes(d); observacoes(d); listagem(d);
+      ED.tabelaGrandes(d, document.getElementById("grandes-tab"), document.getElementById("grandes-resumo"), 1000000);
       document.addEventListener("tema-mudou", function () { testes(d); });
       pronto();
     });

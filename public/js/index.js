@@ -61,6 +61,7 @@
       ED.carregarDados().then(function (d) {
         estado.dados = d;
         desenhar();
+        ED.tabelaGrandes(d, document.getElementById("grandes-tab"), document.getElementById("grandes-resumo"), 1000000);
         if (d.maquina) {
           nota.textContent = "Máquina: " + d.maquina.cpu + " · " + d.maquina.ram + " de RAM · " + d.maquina.so + " · Compilação: " + d.maquina.compilador + ".";
         }
