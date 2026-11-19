@@ -1,5 +1,5 @@
 ORDENACAO - selection sort, insertion sort e bubble sort
-Estrutura de Dados I - Multivix - Sistemas de Informacao
+Estrutura de Dados II - Multivix - Sistemas de Informacao
 
 ARQUIVOS
   sort.h   biblioteca com os 3 algoritmos de ordenacao

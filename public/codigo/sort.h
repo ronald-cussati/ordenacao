@@ -1,7 +1,7 @@
 /*
  * sort.h  -  Biblioteca de ordenacao
  * ---------------------------------------------------------------
- * Disciplina : Estrutura de Dados I  (Multivix - Sistemas de Informacao)
+ * Disciplina : Estrutura de Dados II  (Multivix - Sistemas de Informacao)
  * Trabalho   : Avaliacao pratica do 2o bimestre
  *
  * Este arquivo reune os tres algoritmos de ordenacao vistos em sala:

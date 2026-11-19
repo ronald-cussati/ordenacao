@@ -1,7 +1,7 @@
 /*
  * main.c  -  Programa de teste dos algoritmos de ordenacao
  * ---------------------------------------------------------------
- * Disciplina : Estrutura de Dados I  (Multivix - Sistemas de Informacao)
+ * Disciplina : Estrutura de Dados II  (Multivix - Sistemas de Informacao)
  * Trabalho   : Avaliacao pratica do 2o bimestre
  *
  * O que o programa faz:

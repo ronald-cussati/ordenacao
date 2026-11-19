@@ -6,7 +6,7 @@
 window.GRUPO = {
   instituicao: "Multivix",
   curso: "Sistemas de Informação",
-  disciplina: "Estrutura de Dados I",
+  disciplina: "Estrutura de Dados II",
   professor: "Luiz Guilherme Godoy",
   periodo: "5º/6º",
   turma: "Sistemas de Informação, 5º/6º período",

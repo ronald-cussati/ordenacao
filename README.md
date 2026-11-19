@@ -1,4 +1,4 @@
-# Algoritmos de Ordenação — Estrutura de Dados I
+# Algoritmos de Ordenação — Estrutura de Dados II
 
 Trabalho prático do 2º bimestre (Multivix · Sistemas de Informação · 2026/2).
 Implementação em **C** do *selection sort*, *insertion sort* e *bubble sort*, com avaliação
