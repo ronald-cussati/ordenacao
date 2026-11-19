@@ -1,0 +1,27 @@
+ORDENACAO - selection sort, insertion sort e bubble sort
+Estrutura de Dados I - Multivix - Sistemas de Informacao
+
+ARQUIVOS
+  sort.h   biblioteca com os 3 algoritmos de ordenacao
+  main.c   programa de teste (menu, backup do vetor, cronometro)
+
+COMO COMPILAR  (sem otimizacao, para o tempo ser o do algoritmo puro)
+  gcc -O0 main.c -o ordenacao
+  (no Windows o resultado e ordenacao.exe)
+
+  Em IDEs como Dev-C++ ou Code::Blocks: crie um projeto com main.c e sort.h
+  na mesma pasta e DESLIGUE a otimizacao nas opcoes do compilador.
+
+COMO USAR
+  1) Execute o programa e escolha "1 - Executar um teste".
+  2) Escolha o tipo do vetor (aleatorio, crescente ou decrescente).
+  3) Escolha o tamanho (100, 1.000, 10.000, 100.000 ou 1.000.000).
+  4) Informe quantas repeticoes quer (a tela mostra a media no final).
+
+  Bateria completa (grava um CSV com todas as medicoes):
+     ordenacao --bateria resultados.csv 100 1000 10000 100000 1000000
+
+IMPORTANTE
+  Para o resultado ser valido, feche outros programas durante o teste.
+  Com 1.000.000 de elementos, cada algoritmo leva de varios minutos a
+  dezenas de minutos.

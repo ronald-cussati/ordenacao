@@ -1,0 +1,7 @@
+{
+  "cpu": "AMD Ryzen 7 5825U (8 núcleos / 16 threads, 2,0 GHz base)",
+  "ram": "15,4 GB",
+  "so": "Windows 11 Home",
+  "compilador": "Zig cc 0.17.1 (Clang) com -O0 -fno-sanitize=undefined, equivalente a gcc -O0",
+  "observacao": "Máquina única, programa compilado sem otimização."
+}

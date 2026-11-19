@@ -1,0 +1,10 @@
+# arquivos gerados / temporários
+*.exe
+*.pdb
+*.o
+.vercel/
+node_modules/
+public/_pdfview.html
+
+# PDFs soltos na raiz (enunciado e cópias provisórias)
+/*.pdf
