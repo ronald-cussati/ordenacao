@@ -302,9 +302,48 @@ details.sanfona[open] summary::after { content: "–"; }
 details.sanfona .tabela-wrap { padding: 0 8px 12px; max-height: 560px; overflow: auto; }
 .bib li { margin-bottom: 12px; }
 
+/* ---------- refinamentos: menos elementos, mais espaço ---------- */
+.revelar { opacity: 1; transform: none; transition: none; }
+.progresso { display: none; }
+.serie-linha { animation: none; stroke-dashoffset: 0; }
+section.bloco { padding: 112px 0 0; }
+.hero { padding: 148px 0 0; }
+.hero .container, .hero-cta { max-width: 760px; }
+.hero .container { margin: 0 auto; max-width: 1120px; }
+.hero h1 { font-size: clamp(2.2rem, 5vw, 3.2rem); margin: 10px 0 16px; }
+.hero .selo { margin: 0; }
+.hero-meta { display: block; margin-top: 22px; color: var(--mudo); font-size: .88rem; }
+h2.titulo { font-size: 1.6rem; margin: 0 0 10px; }
+.lead { font-size: 1.04rem; }
+.kicker { display: none; }
+h3.sub { font-size: 1.1rem; margin: 56px 0 6px; }
+
+.algs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; margin-top: 32px; }
+.algs h3 { font-size: 1.05rem; display: flex; align-items: center; gap: 9px; margin-bottom: 8px; }
+.algs h3 i { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+.algs p { color: var(--texto-2); font-size: .95rem; margin: 0 0 8px; }
+.algs small { display: block; color: var(--mudo); font-size: .84rem; }
+
+.sim-ctrl { border: 0; padding: 0; background: transparent; }
+.alg-card { padding: 14px 18px; }
+.res-grade { grid-template-columns: 1fr; gap: 28px; }
+.res-grade > div { min-width: 0; }
+#graf { max-width: 780px; }
+.tabela-wrap { border-top: 1px solid var(--borda); }
+.nomes { list-style: none; padding: 0; margin: 20px 0 0; display: flex; flex-wrap: wrap; gap: 8px 40px; font-size: 1.02rem; }
+.nomes li { font-weight: 500; }
+.cod-barra { margin-top: 24px; }
+footer.rodape { margin-top: 112px; }
+
+/* documentação: tabelas e quadros sem caixas extras */
+.doc .cartao.tabela-wrap { border: 0; border-top: 1px solid var(--borda); border-radius: 0; background: transparent; padding: 0 !important; }
+.doc .trio .cartao { background: transparent; }
+.capa.cartao { background: transparent; }
+
 /* ---------- responsivo ---------- */
 @media (max-width: 1100px) { .res-grade { grid-template-columns: 1fr; } }
 @media (max-width: 980px) {
+  .algs { grid-template-columns: 1fr; gap: 24px; }
   .hero-grade, .sim { grid-template-columns: 1fr; }
   .estatisticas { grid-template-columns: repeat(2, 1fr); }
   .estat:nth-child(2) { border-right: 0; }

@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Algoritmos de Ordenação — Estrutura de Dados I</title>
-  <meta name="description" content="Implementação em C e análise empírica de desempenho do selection sort, insertion sort e bubble sort. Trabalho de Estrutura de Dados I — Multivix, Sistemas de Informação.">
+  <meta name="description" content="Implementação em C e análise de desempenho do selection sort, insertion sort e bubble sort. Trabalho de Estrutura de Dados I — Multivix, Sistemas de Informação.">
   <meta name="theme-color" content="#fbfbfa">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,20 +12,18 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
-    <div class="progresso" aria-hidden="true"></div>
-
+<body class="limpo">
   <header class="nav">
     <div class="nav-in">
       <a class="logo" href="#topo" aria-label="Início">
         <span class="logo-mark" aria-hidden="true"><i></i><i></i><i></i></span>
-        Ordenação<span style="color:var(--mudo);font-weight:400">· ED1</span>
+        Ordenação
       </a>
       <nav class="links" aria-label="Principal">
         <a href="#como">Algoritmos</a>
         <a href="#simulador">Simulador</a>
         <a href="#resultados">Resultados</a>
-        <a href="#codigo">Código C</a>
+        <a href="#codigo">Código</a>
         <a href="documentacao.html">Documentação</a>
       </nav>
       <button class="btn-tema" data-tema aria-label="Alternar tema claro e escuro" title="Alternar tema">
@@ -38,73 +36,44 @@
   </header>
 
   <main id="topo">
-    <!-- ===================== HERO ===================== -->
+    <!-- ===================== TOPO ===================== -->
     <section class="hero">
-      <div class="container hero-grade">
-        <div>
-          <div class="selo revelar"><b>ED I</b> <span><span data-g="instituicao"></span> · <span data-g="curso"></span> · <span data-g="semestre"></span></span></div>
-          <h1 class="revelar" style="--d:80ms">Algoritmos de ordenação:<br><span class="grad">análise de desempenho em C</span></h1>
-          <p class="lead revelar" style="--d:160ms">Implementação do <strong>selection sort</strong>, <strong>insertion sort</strong> e <strong>bubble sort</strong>, testados com vetores de 100 a 1.000.000 de elementos — aleatórios, crescentes e decrescentes — e comparados pela relação <strong>Tamanho × Tempo</strong>.</p>
-          <div class="hero-cta revelar" style="--d:240ms">
-            <a class="btn btn-primario" data-pdf href="downloads/Documentacao-Grupo-Ordenacao.pdf" download>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg>
-              Baixar PDF do grupo
-            </a>
-            <a class="btn" href="documentacao.html">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a2 2 0 012-2h12v18H6a2 2 0 01-2-2V5zM8 7h6M8 11h6"/></svg>
-              Ler a documentação
-            </a>
-            <a class="btn" href="#simulador">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4l14 8-14 8V4z"/></svg>
-              Testar agora
-            </a>
-          </div>
-          <div class="hero-meta revelar" style="--d:320ms">
-            <span>Professor <b data-g="professor"></b></span>
-            <span>Entrega <b data-g="dataEntrega"></b></span>
-          </div>
-        </div>
-
-        <div class="viz cartao revelar" style="--d:200ms" aria-label="Animação ilustrativa dos três algoritmos ordenando 28 barras">
-          <div class="viz-topo"><span class="pontos"><i></i><i></i><i></i></span><span>ilustração · 28 elementos</span></div>
-          <div class="viz-linha"><div class="viz-nome"><span style="color:var(--sel)">selection sort</span><small id="viz-sel-info"></small></div><canvas id="viz-sel"></canvas></div>
-          <div class="viz-linha"><div class="viz-nome"><span style="color:var(--ins)">insertion sort</span><small id="viz-ins-info"></small></div><canvas id="viz-ins"></canvas></div>
-          <div class="viz-linha"><div class="viz-nome"><span style="color:var(--bub)">bubble sort</span><small id="viz-bub-info"></small></div><canvas id="viz-bub"></canvas></div>
-        </div>
-      </div>
-
       <div class="container">
-        <div class="estatisticas">
-          <div class="cartao estat revelar"><div class="num grad" data-conta="3">0</div><div class="rot">algoritmos de ordenação</div></div>
-          <div class="cartao estat revelar" style="--d:70ms"><div class="num grad" data-conta="5">0</div><div class="rot">tamanhos de vetor</div></div>
-          <div class="cartao estat revelar" style="--d:140ms"><div class="num grad" data-conta="3">0</div><div class="rot">tipos de vetor</div></div>
-          <div class="cartao estat revelar" style="--d:210ms"><div class="num grad" data-conta="1000000">0</div><div class="rot">elementos no maior teste</div></div>
+        <p class="selo"><span data-g="disciplina"></span> · <span data-g="instituicao"></span> · <span data-g="curso"></span> · <span data-g="semestre"></span></p>
+        <h1>Algoritmos de ordenação</h1>
+        <p class="lead">Selection sort, insertion sort e bubble sort implementados em C e comparados em vetores de 100 a 1.000.000 de elementos.</p>
+        <div class="hero-cta">
+          <a class="btn btn-primario" data-pdf href="downloads/Documentacao-Grupo-Ordenacao.pdf" download>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg>
+            Baixar PDF do grupo
+          </a>
+          <a class="btn" href="documentacao.html">Ler a documentação</a>
         </div>
+        <p class="hero-meta">Professor <span data-g="professor"></span> · Entrega <span data-g="dataEntrega"></span></p>
       </div>
     </section>
 
     <!-- ===================== ALGORITMOS ===================== -->
     <section class="bloco" id="como">
       <div class="container">
-        <span class="kicker revelar">Visão geral</span>
-        <h2 class="titulo revelar">Como cada algoritmo pensa</h2>
-        <p class="lead revelar">Todos ordenam números inteiros em ordem crescente e estão no mesmo arquivo <code class="inline">sort.h</code>, escritos na versão mais simples possível.</p>
-        <div class="trio">
-          <article class="cartao alg-info revelar">
+        <h2 class="titulo">Os algoritmos</h2>
+        <p class="lead">Os três ordenam números inteiros em ordem crescente e estão juntos no arquivo <code class="inline">sort.h</code>, na versão mais simples possível.</p>
+        <div class="algs">
+          <div>
             <h3><i style="background:var(--sel)"></i>Selection sort</h3>
             <p>A cada passada procura o <strong>menor</strong> elemento da parte desordenada e o coloca na primeira posição dela.</p>
-            <div class="chips"><span class="chip">sempre O(n²)</span><span class="chip">no máx. n−1 trocas</span></div>
-          </article>
-          <article class="cartao alg-info revelar" style="--d:90ms">
+            <small>Sempre O(n²)</small>
+          </div>
+          <div>
             <h3><i style="background:var(--ins)"></i>Insertion sort</h3>
             <p>Como ordenar cartas na mão: pega o próximo elemento e o <strong>insere</strong> no lugar certo da parte já ordenada.</p>
-            <div class="chips"><span class="chip">melhor O(n)</span><span class="chip">pior O(n²)</span></div>
-          </article>
-          <article class="cartao alg-info revelar" style="--d:180ms">
+            <small>Melhor caso O(n), pior caso O(n²)</small>
+          </div>
+          <div>
             <h3><i style="background:var(--bub)"></i>Bubble sort</h3>
             <p>Compara vizinhos e troca os que estão fora de ordem. O maior elemento <strong>sobe como uma bolha</strong> até o fim.</p>
-            <div class="chips"><span class="chip">sempre O(n²)</span><span class="chip">mais trocas</span></div>
-          </article>
+            <small>Sempre O(n²)</small>
+          </div>
         </div>
       </div>
     </section>
@@ -112,12 +81,11 @@
     <!-- ===================== SIMULADOR ===================== -->
     <section class="bloco" id="simulador">
       <div class="container">
-        <span class="kicker revelar">Simulador</span>
-        <h2 class="titulo revelar">Simulador</h2>
-        <p class="lead revelar">Escolha o tipo e o tamanho do vetor. Os três algoritmos ordenam <strong>exatamente os mesmos números</strong> (o vetor é restaurado do backup antes de cada um) e a tela mostra o horário de início, o de fim e o tempo gasto — tudo medido de verdade, sem animação falsa.</p>
+        <h2 class="titulo">Simulador</h2>
+        <p class="lead">Escolha o tipo e o tamanho do vetor. Os três algoritmos ordenam os mesmos números e a tela mostra o horário de início, o de fim e o tempo de cada um.</p>
 
         <div class="sim" id="simulador-app">
-          <div class="cartao sim-ctrl revelar" id="sim-ctrl">
+          <div class="sim-ctrl" id="sim-ctrl">
             <div>
               <span class="ctrl-rot">Tipo do vetor</span>
               <div class="seg" role="group" aria-label="Tipo do vetor">
@@ -137,50 +105,45 @@
               </div>
             </div>
             <div>
-              <label class="ctrl-rot" for="sim-reps">Repetições (para tirar a média)</label>
+              <label class="ctrl-rot" for="sim-reps">Repetições (para a média)</label>
               <input class="input" id="sim-reps" type="number" min="1" max="20" value="1">
             </div>
             <div id="sim-aviso" class="aviso oculto" role="status"></div>
             <div class="sim-acoes">
-              <button class="btn btn-primario" id="sim-rodar">
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15a1 1 0 001.5.86l12-7.5a1 1 0 000-1.72l-12-7.5A1 1 0 007 4.5z"/></svg>
-                Executar
-              </button>
+              <button class="btn btn-primario" id="sim-rodar">Executar</button>
               <button class="btn oculto" id="sim-parar">Cancelar</button>
             </div>
           </div>
 
           <div class="sim-res" id="sim-res">
-            <div class="alg-card cartao revelar" data-alg="0">
+            <div class="alg-card cartao" data-alg="0">
               <h4><i></i>selection sort</h4><div class="alg-tempo">—</div>
-              <div class="alg-estado">aguardando</div><div class="alg-horas" style="grid-column:1">início — · fim —</div>
+              <div class="alg-estado">aguardando</div><div class="alg-horas">início — · fim —</div>
               <div class="alg-barra"><i></i></div>
             </div>
-            <div class="alg-card cartao revelar" data-alg="1" style="--d:80ms">
+            <div class="alg-card cartao" data-alg="1">
               <h4><i></i>insertion sort</h4><div class="alg-tempo">—</div>
-              <div class="alg-estado">aguardando</div><div class="alg-horas" style="grid-column:1">início — · fim —</div>
+              <div class="alg-estado">aguardando</div><div class="alg-horas">início — · fim —</div>
               <div class="alg-barra"><i></i></div>
             </div>
-            <div class="alg-card cartao revelar" data-alg="2" style="--d:160ms">
+            <div class="alg-card cartao" data-alg="2">
               <h4><i></i>bubble sort</h4><div class="alg-tempo">—</div>
-              <div class="alg-estado">aguardando</div><div class="alg-horas" style="grid-column:1">início — · fim —</div>
+              <div class="alg-estado">aguardando</div><div class="alg-horas">início — · fim —</div>
               <div class="alg-barra"><i></i></div>
             </div>
-            <pre class="console" id="sim-log" aria-live="polite"></pre>
           </div>
         </div>
-        <p class="nota">O simulador roda em JavaScript no seu navegador, então os tempos são diferentes dos do programa em C. Além disso, o navegador arredonda o cronômetro para 0,1 ms. Os resultados oficiais do trabalho, medidos com o programa em C, estão logo abaixo.</p>
+        <p class="nota">O simulador roda em JavaScript no seu navegador, que arredonda o cronômetro para 0,1 ms. Os tempos oficiais do trabalho são os do programa em C, abaixo.</p>
       </div>
     </section>
 
     <!-- ===================== RESULTADOS ===================== -->
     <section class="bloco" id="resultados">
       <div class="container">
-        <span class="kicker revelar">Resultados</span>
-        <h2 class="titulo revelar">Tamanho × Tempo</h2>
-        <p class="lead revelar">Tempos médios medidos pelo programa em C (<code class="inline">sort.h</code> + <code class="inline">main.c</code>), compilado sem otimização, em uma única máquina.</p>
+        <h2 class="titulo">Resultados: tamanho × tempo</h2>
+        <p class="lead">Tempos médios medidos pelo programa em C, compilado sem otimização, em uma única máquina.</p>
 
-        <div class="resultado-topo revelar">
+        <div class="resultado-topo">
           <div class="abas" data-aba-tipo role="tablist" aria-label="Tipo do vetor">
             <button class="ativo" data-v="aleatorio">Aleatório</button>
             <button data-v="crescente">Crescente</button>
@@ -193,66 +156,47 @@
         </div>
 
         <div class="res-grade" id="resultados-grade">
-          <div class="cartao revelar"><div id="graf"></div></div>
-          <div class="cartao revelar" style="--d:90ms"><div class="tabela-wrap"><table class="tabela" id="tabela-res"></table></div></div>
+          <div><div id="graf"></div></div>
+          <div class="tabela-wrap"><table class="tabela" id="tabela-res"></table></div>
         </div>
         <p class="nota" id="res-nota"></p>
-        <h3 style="margin:44px 0 8px;font-size:1.3rem">Medições com 1.000.000 de elementos</h3>
-        <p class="nota" style="margin-top:0">Cada linha é uma execução única do programa em C: horário em que a ordenação começou, horário em que terminou e quanto tempo levou.</p>
-        <div class="cartao" style="margin-top:14px"><div class="tabela-wrap"><table class="tabela" id="grandes-tab"></table></div></div>
-        <p class="nota" id="grandes-resumo"></p>
 
-        <p class="nota">Na escala logarítmica, uma reta com inclinação 2 indica comportamento O(n²): cada vez que o vetor cresce 10 vezes, o tempo cresce cerca de 100 vezes. A escala linear mostra a curva (parábola) típica.</p>
+        <h3 class="sub">Execuções com 1.000.000 de elementos</h3>
+        <p class="nota" style="margin-top:0">Cada linha é uma execução única: quanto tempo levou e quando começou e terminou.</p>
+        <div class="tabela-wrap"><table class="tabela" id="grandes-tab"></table></div>
+        <p class="nota" id="grandes-resumo"></p>
       </div>
     </section>
 
     <!-- ===================== CÓDIGO ===================== -->
     <section class="bloco" id="codigo">
       <div class="container">
-        <span class="kicker revelar">Código-fonte</span>
-        <h2 class="titulo revelar">Biblioteca <span class="grad">sort.h</span> e programa de testes</h2>
-        <p class="lead revelar">Os três algoritmos ficam juntos em <code class="inline">sort.h</code>. O <code class="inline">main.c</code> traz o menu, o backup do vetor e o cronômetro.</p>
+        <h2 class="titulo">Código em C</h2>
+        <p class="lead">Compile sem otimização para o tempo ser o do algoritmo puro: <code class="inline">gcc -O0 main.c -o ordenacao</code></p>
 
-        <div class="cod-barra revelar">
+        <div class="cod-barra">
           <div class="abas" data-aba-cod>
             <button class="ativo" data-v="sort.h">sort.h</button>
             <button data-v="main.c">main.c</button>
           </div>
-          <div style="display:flex;gap:10px;flex-wrap:wrap">
-            <button class="btn btn-peq" id="cod-copiar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 012-2h9"/></svg><span>Copiar</span></button>
-            <a class="btn btn-peq" id="cod-baixar" href="codigo/sort.h" download>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg>Baixar arquivo</a>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button class="btn btn-peq" id="cod-copiar"><span>Copiar</span></button>
+            <a class="btn btn-peq" id="cod-baixar" href="codigo/sort.h" download>Baixar arquivo</a>
             <a class="btn btn-peq" data-zip href="downloads/codigo-ordenacao.zip" download>Baixar .zip</a>
           </div>
         </div>
-        <div class="cod-janela revelar">
-          <div class="cod-topo"><span class="pontos"><i></i><i></i><i></i></span><span id="cod-nome">sort.h</span></div>
+        <div class="cod-janela">
+          <div class="cod-topo"><span id="cod-nome">sort.h</span></div>
           <pre class="cod" id="cod-pre"><code>Carregando…</code></pre>
-        </div>
-
-        <div class="passos">
-          <div class="cartao passo revelar"><div class="p-num">01 · compilar</div><p style="margin:6px 0 0;color:var(--texto-2);font-size:.92rem">Coloque <code>sort.h</code> e <code>main.c</code> na mesma pasta e compile <strong>sem otimização</strong>:</p><pre>gcc -O0 main.c -o ordenacao</pre></div>
-          <div class="cartao passo revelar" style="--d:80ms"><div class="p-num">02 · executar</div><p style="margin:6px 0 0;color:var(--texto-2);font-size:.92rem">Abra o programa e escolha o tipo, o tamanho e as repetições no menu:</p><pre>./ordenacao        # Linux/Mac
-ordenacao.exe      # Windows</pre></div>
-          <div class="cartao passo revelar" style="--d:160ms"><div class="p-num">03 · bateria completa</div><p style="margin:6px 0 0;color:var(--texto-2);font-size:.92rem">Roda todos os tipos e tamanhos e grava um CSV com cada medição:</p><pre>ordenacao --bateria resultados.csv 100 1000 10000</pre></div>
         </div>
       </div>
     </section>
 
-    <!-- ===================== EQUIPE ===================== -->
+    <!-- ===================== GRUPO ===================== -->
     <section class="bloco" id="equipe">
       <div class="container">
-        <span class="kicker revelar">Grupo</span>
-        <h2 class="titulo revelar">Quem fez</h2>
-        <p class="lead revelar"><span data-g="disciplina"></span> · Prof. <span data-g="professor"></span> · <span data-g="curso"></span> — <span data-g="instituicao"></span></p>
-        <div class="equipe" id="equipe-lista"></div>
-        <div class="hero-cta revelar" style="margin-top:36px">
-          <a class="btn btn-primario" data-pdf href="downloads/Documentacao-Grupo-Ordenacao.pdf" download>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg>
-            Baixar PDF da documentação
-          </a>
-          <a class="btn" data-repo href="#" target="_blank" rel="noopener">Ver no GitHub</a>
-        </div>
+        <h2 class="titulo">Grupo</h2>
+        <ul class="nomes" id="equipe-lista"></ul>
       </div>
     </section>
   </main>
@@ -260,7 +204,7 @@ ordenacao.exe      # Windows</pre></div>
   <footer class="rodape">
     <div class="container rodape-in">
       <span><span data-g="disciplina"></span> · <span data-g="instituicao"></span> · <span data-g="semestre"></span></span>
-      <span>Algoritmos escritos em C. Site estático hospedado na Vercel.</span>
+      <a data-repo href="#" target="_blank" rel="noopener">GitHub</a>
     </div>
   </footer>
 
@@ -269,7 +213,6 @@ ordenacao.exe      # Windows</pre></div>
   <script src="js/charts.js"></script>
   <script src="js/grandes.js"></script>
   <script src="js/codeview.js"></script>
-  <script src="js/visualizer.js"></script>
   <script src="js/demo.js"></script>
   <script src="js/index.js"></script>
 </body>

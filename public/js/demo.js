@@ -66,6 +66,7 @@
     }
 
     function escrever(linha) {
+      if (!log) { return; }
       log.textContent += linha + "\n";
       log.scrollTop = log.scrollHeight;
     }
@@ -102,7 +103,7 @@
       btnParar.classList.remove("oculto");
       raiz.classList.add("rodando");
       limparCartoes();
-      log.textContent = "";
+      if (log) { log.textContent = ""; }
       escrever("vetor " + estado.tipo + " com " + ED.int(estado.n) + " elementos — " + estado.reps + " repetição(ões)");
 
       var somas = [0, 0, 0], maiorMs = 0, medias = [[], [], []];

@@ -8,13 +8,7 @@
     /* ---------- equipe ---------- */
     var eq = document.getElementById("equipe-lista");
     if (eq) {
-      eq.innerHTML = ED.integrantes().map(function (nome, i) {
-        var partes = nome.trim().split(/\s+/);
-        var ini = (partes[0][0] + (partes.length > 1 ? partes[partes.length - 1][0] : "")).toUpperCase();
-        return "<div class='pessoa cartao revelar' style='--d:" + i * 80 + "ms'><div class='avatar'>" + ED.escapar(ini) +
-          "</div><div><b>" + ED.escapar(nome) + "</b><span>Integrante do grupo</span></div></div>";
-      }).join("");
-      eq.querySelectorAll(".revelar").forEach(function (e) { setTimeout(function () { e.classList.add("visivel"); }, 50); });
+      eq.innerHTML = ED.integrantes().map(function (nome) { return "<li>" + ED.escapar(nome) + "</li>"; }).join("");
     }
 
     /* ---------- resultados ---------- */
