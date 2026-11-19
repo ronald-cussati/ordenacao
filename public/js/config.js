@@ -9,17 +9,15 @@ window.GRUPO = {
   disciplina: "Estrutura de Dados I",
   professor: "Luiz Guilherme Godoy",
   periodo: "5º/6º",
-  turma: "",                       // ex.: "SI5A" (deixe vazio para ocultar)
+  turma: "Sistemas de Informação, 5º/6º período",
   semestre: "2026/2",
   atividade: "Avaliação Prática — 2º Bimestre",
   dataEntrega: "24/11/2026",
-  // Os integrantes vazios ("") não aparecem no site. O grupo tem 5 pessoas.
+  // Integrantes do grupo (vazios, se houver, não aparecem no site).
   integrantes: [
     "Alvino Mainette Santos",
     "Ronald Cussati Cesar da Fonseca",
-    "Thalys Cestari Thouzo",
-    "",
-    ""
+    "Thalys Cestari Thouzo"
   ],
   pdf: "downloads/Documentacao-Grupo-Ordenacao.pdf",
   zip: "downloads/codigo-ordenacao.zip",
