@@ -1,16 +1,10 @@
-/*
- * teste.h  -  Execucao dos testes
- * ---------------------------------------------------------------
- * executar_algoritmo()  chama um algoritmo e mede o tempo
- * testar()              teste de um tipo de vetor e um tamanho
- * bateria_completa()    roda todos os tipos e grava o resultados.csv
- *
- * Fluxo de cada teste:
- *   1) gera o vetor original (e ele fica guardado como BACKUP)
- *   2) antes de cada algoritmo, copia o backup para o vetor de trabalho
- *      (assim os tres algoritmos ordenam exatamente os mesmos numeros)
- *   3) mostra nome, horario de inicio, horario de fim e tempo em ms
- */
+/* teste.h - executa os testes e grava o resultados.csv
+
+   Como cada teste funciona:
+   1) gera o vetor original (ele fica guardado como backup)
+   2) antes de cada algoritmo copia o backup para o vetor de trabalho,
+      assim os tres ordenam exatamente os mesmos numeros
+   3) mostra o nome, o horario de inicio, o de fim e o tempo em ms */
 
 #ifndef TESTE_H
 #define TESTE_H
@@ -26,23 +20,20 @@
 #define QTD_TIPOS      3
 #define QTD_ALGORITMOS 3
 
-/* tamanhos pedidos no enunciado */
 int tamanhos[QTD_TAMANHOS] = {100, 1000, 10000, 100000, 1000000};
 
-/* nomes que aparecem na tela e no arquivo de resultados */
 char *nomes_tipos[QTD_TIPOS] = {"aleatorio", "crescente", "decrescente"};
 char *nomes_algoritmos[QTD_ALGORITMOS] = {"selection sort", "insertion sort", "bubble sort"};
 
 
-/* Chama o algoritmo escolhido (0 = selection, 1 = insertion, 2 = bubble)
-   e mede o tempo. Preenche inicio e fim (texto) e devolve o tempo em ms.
-   O tempo conta somente a chamada da funcao de ordenacao. */
+/* chama o algoritmo (0 = selection, 1 = insertion, 2 = bubble) e devolve
+   o tempo em ms. So conta a chamada da funcao de ordenacao. */
 double executar_algoritmo(int algoritmo, int v[], int n, char inicio[], char fim[])
 {
     double t_inicio, t_fim;
 
     horario_atual(inicio);
-    t_inicio = agora_ms();           /* <<< comeca a contar */
+    t_inicio = agora_ms();           /* comeca a contar */
 
     if (algoritmo == 0)
     {
@@ -57,25 +48,24 @@ double executar_algoritmo(int algoritmo, int v[], int n, char inicio[], char fim
         bubble_sort(v, n);
     }
 
-    t_fim = agora_ms();              /* <<< para de contar */
+    t_fim = agora_ms();              /* para de contar */
     horario_atual(fim);
 
     return t_fim - t_inicio;
 }
 
 
-/* Teste completo de um tipo (1, 2 ou 3) e um tamanho.
-   Se csv != NULL, grava cada medicao no arquivo. */
+/* teste de um tipo de vetor (1, 2 ou 3) e um tamanho.
+   Se csv nao for NULL, grava cada medicao no arquivo. */
 void testar(int tipo, int n, int repeticoes, FILE *csv)
 {
-    int *original;                         /* vetor gerado (fica de backup) */
-    int *v;                                /* vetor que sera ordenado       */
+    int *original;                         /* vetor gerado (backup) */
+    int *v;                                /* vetor que sera ordenado */
     double soma[QTD_ALGORITMOS] = {0, 0, 0};
     double tempo;
     char inicio[30], fim[30];
     int r, a;
 
-    /* aloca os dois vetores na memoria */
     original = (int *)malloc(n * sizeof(int));
     v = (int *)malloc(n * sizeof(int));
     if (original == NULL || v == NULL)
@@ -88,7 +78,7 @@ void testar(int tipo, int n, int repeticoes, FILE *csv)
 
     for (r = 1; r <= repeticoes; r++)
     {
-        /* novo vetor a cada repeticao (no tipo aleatorio, e um novo sorteio) */
+        /* vetor novo a cada repeticao */
         gerar_vetor(original, n, tipo);
 
         if (repeticoes > 1)
@@ -104,7 +94,6 @@ void testar(int tipo, int n, int repeticoes, FILE *csv)
             tempo = executar_algoritmo(a, v, n, inicio, fim);
             soma[a] = soma[a] + tempo;
 
-            /* saida no formato do enunciado + horarios de inicio e fim */
             printf("%s %.3f ms   (inicio %s | fim %s)\n",
                    nomes_algoritmos[a], tempo, inicio, fim);
 
@@ -113,18 +102,17 @@ void testar(int tipo, int n, int repeticoes, FILE *csv)
                 printf("ERRO: %s nao ordenou o vetor!\n", nomes_algoritmos[a]);
             }
 
-            /* grava uma linha no arquivo: tipo,tamanho,algoritmo,repeticao,inicio,fim,ms */
+            /* linha do csv: tipo,tamanho,algoritmo,repeticao,inicio,fim,ms */
             if (csv != NULL)
             {
                 fprintf(csv, "%s,%d,%s,%d,%s,%s,%.3f\n",
                         nomes_tipos[tipo - 1], n, nomes_algoritmos[a], r,
                         inicio, fim, tempo);
-                fflush(csv);   /* salva na hora, caso o teste demore horas */
+                fflush(csv);   /* salva na hora, o teste pode demorar horas */
             }
         }
     }
 
-    /* quando houve varias repeticoes, mostra a media de cada algoritmo */
     if (repeticoes > 1)
     {
         printf("MEDIA de %d repeticoes:\n", repeticoes);
@@ -139,9 +127,8 @@ void testar(int tipo, int n, int repeticoes, FILE *csv)
 }
 
 
-/* Quantas vezes repetir cada teste na bateria completa.
-   Vetores pequenos sao muito rapidos, entao repetimos mais vezes para
-   tirar uma media melhor. Vetores grandes demoram muito: poucas vezes. */
+/* vetores pequenos sao muito rapidos, entao repete mais vezes para
+   tirar uma media melhor. Os grandes demoram muito: so uma vez. */
 int repeticoes_padrao(int n)
 {
     if (n <= 100)    return 20;
@@ -152,14 +139,13 @@ int repeticoes_padrao(int n)
 }
 
 
-/* Roda todos os tipos para os tamanhos informados e grava no CSV */
+/* roda todos os tipos para os tamanhos da lista e grava no csv */
 void bateria_completa(char nome_arquivo[], int lista[], int qtd)
 {
     FILE *csv;
     int i, t;
 
-    /* se o arquivo ainda nao existe, cria e escreve o cabecalho;
-       se ja existe, acrescenta no fim */
+    /* se o arquivo nao existe, cria com o cabecalho; se existe, continua no fim */
     csv = fopen(nome_arquivo, "r");
     if (csv == NULL)
     {

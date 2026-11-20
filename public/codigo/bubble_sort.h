@@ -1,28 +1,20 @@
-/*
- * bubble_sort.h  -  Ordenacao por BOLHA
- * Autor: Thalys Cestari Thouzo
- * ---------------------------------------------------------------
- * Ideia: percorre o vetor comparando cada elemento com o vizinho da
- * direita. Se estiverem fora de ordem, troca. A cada passada o maior
- * elemento "sobe como uma bolha" ate o final do vetor.
- *
- * Esta e a versao basica, sem parada antecipada: sempre faz todas as
- * passadas. Por isso o numero de comparacoes e sempre O(n^2).
- */
+/* bubble_sort.h - ordenacao por bolha
+   Responsavel: Thalys Cestari Thouzo */
 
 #ifndef BUBBLE_SORT_H
 #define BUBBLE_SORT_H
 
+/* Compara cada elemento com o vizinho da direita e troca se estiverem
+   fora de ordem. A cada passada o maior elemento vai para o final.
+   Versao basica, sem parar antes: sempre O(n^2). */
 void bubble_sort(int v[], int n)
 {
     int i, j;
-    int aux;     /* variavel auxiliar para fazer a troca */
+    int aux;
 
-    /* cada passada i coloca o i-esimo maior elemento no seu lugar */
     for (i = 0; i < n - 1; i++)
     {
-        /* os ultimos i elementos ja estao no lugar, entao nao precisa
-           compara-los de novo */
+        /* os ultimos i ja estao no lugar */
         for (j = 0; j < n - 1 - i; j++)
         {
             if (v[j] > v[j + 1])

@@ -81,7 +81,7 @@
       var baixar = document.getElementById("cod-baixar");
       var carregar = function () {
         titulo.textContent = arq;
-        autor.textContent = autores[arq] ? "autor: " + autores[arq] : "";
+        autor.textContent = autores[arq] ? "responsável: " + autores[arq] : "";
         baixar.setAttribute("href", "codigo/" + arq);
         baixar.setAttribute("download", arq);
         ED.codigo.mostrar(cod, "codigo/" + arq);

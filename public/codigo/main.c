@@ -1,23 +1,14 @@
-/*
- * main.c  -  Programa principal (menu)
- * ---------------------------------------------------------------
- * Disciplina : Estrutura de Dados II  (Multivix - Sistemas de Informacao)
- * Trabalho   : Avaliacao pratica do 2o bimestre
- *
- * O usuario escolhe o TIPO do vetor (aleatorio, crescente ou
- * decrescente) e o TAMANHO (100, 1.000, 10.000, 100.000 ou 1.000.000).
- * O programa gera o vetor, guarda um backup e testa os tres algoritmos
- * mostrando o horario de inicio, o de fim e o tempo em milissegundos.
- *
- * Arquivos do projeto:
- *     sort.h      -> junta os 3 algoritmos (cada um em seu arquivo)
- *     vetor.h     -> gerar, copiar (backup) e conferir o vetor
- *     tempo.h     -> cronometro e horario
- *     teste.h     -> executa os testes e grava o CSV
- *
- * Como compilar (sem otimizacao, para o tempo ser o do algoritmo puro):
- *     gcc -O0 main.c -o ordenacao
- */
+/* main.c - programa principal (menu)
+   Estrutura de Dados II - Multivix - Sistemas de Informacao
+
+   O usuario escolhe o tipo do vetor (aleatorio, crescente ou decrescente)
+   e o tamanho (100 ate 1.000.000). O programa gera o vetor, guarda um
+   backup e testa os tres algoritmos, mostrando o horario de inicio,
+   o de fim e o tempo em ms.
+
+   Arquivos: sort.h (algoritmos), vetor.h, tempo.h e teste.h
+
+   Para compilar sem otimizacao:  gcc -O0 main.c -o ordenacao */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -26,9 +17,8 @@
 #include "teste.h"
 
 
-/* Le um numero inteiro digitado pelo usuario.
-   Se o usuario digitar letras, avisa e pede de novo (evita travar o programa).
-   Se a entrada acabar (fim do arquivo), devolve 0 para o programa encerrar. */
+/* le um numero do teclado; se digitar letras, avisa e pede de novo.
+   Se a entrada acabar, devolve 0 para o programa encerrar. */
 int ler_inteiro(void)
 {
     int numero, c;
@@ -40,7 +30,7 @@ int ler_inteiro(void)
             return 0;
         }
         printf("Digite apenas numeros: ");
-        /* descarta o que foi digitado errado ate o fim da linha */
+        /* descarta o que foi digitado errado */
         while ((c = getchar()) != '\n' && c != EOF)
         {
             ;
@@ -55,11 +45,10 @@ int main(int argc, char *argv[])
     int opcao, tipo, op_tamanho, n, repeticoes, i;
     int lista[QTD_TAMANHOS];
 
-    /* semente do gerador de numeros aleatorios: muda a cada execucao */
+    /* semente dos numeros aleatorios */
     srand((unsigned int)time(NULL));
 
-    /* Modo direto (usado para rodar a bateria sem menu):
-       ordenacao --bateria arquivo.csv 100 1000 10000 ... */
+    /* modo direto, sem menu: ordenacao --bateria arquivo.csv 100 1000 ... */
     if (argc >= 4 && argv[1][0] == '-' && argv[1][1] == '-' && argv[1][2] == 'b')
     {
         for (i = 3; i < argc && i - 3 < QTD_TAMANHOS; i++)

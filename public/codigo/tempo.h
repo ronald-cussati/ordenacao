@@ -1,9 +1,4 @@
-/*
- * tempo.h  -  Cronometro e horario
- * ---------------------------------------------------------------
- * agora_ms()      devolve o tempo atual em milissegundos
- * horario_atual() escreve a data e a hora do relogio em um texto
- */
+/* tempo.h - cronometro e horario */
 
 #ifndef TEMPO_H
 #define TEMPO_H
@@ -11,17 +6,13 @@
 #include <stdio.h>
 #include <time.h>
 
-/* Para o cronometro de alta precisao no Windows */
 #ifdef _WIN32
 #include <windows.h>
 #endif
 
-/* Devolve o tempo atual em milissegundos (com casas decimais).
-   Usamos o contador de alta resolucao do sistema porque a funcao
-   clock() so enxerga ate 1 ms e, para 100 elementos, o tempo de
-   ordenacao e muito menor que isso.
-   Medimos antes e depois da chamada da funcao de ordenacao; a
-   diferenca e o tempo de execucao. */
+/* Devolve o tempo atual em milissegundos.
+   Nao usei clock() porque ele so enxerga ate 1 ms e, com 100 elementos,
+   a ordenacao leva bem menos que isso. */
 double agora_ms(void)
 {
 #ifdef _WIN32
@@ -36,8 +27,7 @@ double agora_ms(void)
 #endif
 }
 
-/* Escreve o horario do relogio (data e hora) no texto recebido.
-   Serve para mostrar o INICIO e o FIM de cada ordenacao. */
+/* escreve a data e a hora atual no texto (para mostrar inicio e fim) */
 void horario_atual(char texto[])
 {
     time_t agora = time(NULL);

@@ -1,30 +1,22 @@
-/*
- * selection_sort.h  -  Ordenacao por SELECAO
- * Autor: Alvino Mainette Santos
- * ---------------------------------------------------------------
- * Ideia: a cada passada procura o MENOR elemento da parte que ainda
- * nao foi ordenada e coloca ele na primeira posicao dessa parte.
- *
- * Complexidade: sempre O(n^2) comparacoes, nao importa como o vetor
- * esta organizado (melhor, medio e pior caso sao iguais).
- * Trocas: no maximo n-1.
- */
+/* selection_sort.h - ordenacao por selecao
+   Responsavel: Alvino Mainette Santos */
 
 #ifndef SELECTION_SORT_H
 #define SELECTION_SORT_H
 
+/* A cada passada procura o menor elemento da parte que falta ordenar
+   e coloca ele na primeira posicao dessa parte.
+   Sempre faz O(n^2) comparacoes, mesmo se o vetor ja estiver ordenado. */
 void selection_sort(int v[], int n)
 {
     int i, j;
-    int menor;   /* posicao do menor elemento encontrado ate agora */
-    int aux;     /* variavel auxiliar para fazer a troca           */
+    int menor;   /* posicao do menor valor encontrado */
+    int aux;
 
-    /* i marca onde termina a parte ja ordenada */
     for (i = 0; i < n - 1; i++)
     {
         menor = i;
 
-        /* procura o menor valor entre as posicoes i+1 ... n-1 */
         for (j = i + 1; j < n; j++)
         {
             if (v[j] < v[menor])
@@ -33,7 +25,7 @@ void selection_sort(int v[], int n)
             }
         }
 
-        /* se achou um valor menor que v[i], troca os dois de lugar */
+        /* troca o menor com v[i] */
         if (menor != i)
         {
             aux = v[i];

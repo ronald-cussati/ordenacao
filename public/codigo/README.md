@@ -5,7 +5,7 @@ Avaliação prática do 2º bimestre
 
 ## Arquivos
 
-| Arquivo | O que tem | Quem fez |
+| Arquivo | O que tem | Responsável |
 |---|---|---|
 | `selection_sort.h` | ordenação por seleção | Alvino Mainette Santos |
 | `insertion_sort.h` | ordenação por inserção | Ronald Cussati Cesar da Fonseca |
@@ -48,7 +48,10 @@ ordenacao --bateria resultados.csv 100 1000 10000 100000 1000000
 3. O tempo é medido só na chamada da função de ordenação.
 4. A tela mostra o nome, o horário de início, o horário de fim e o tempo em ms.
 
-## Importante
-
 Feche os outros programas durante o teste. Com 1.000.000 de elementos cada
 algoritmo leva de vários minutos a dezenas de minutos.
+
+## Uso de inteligência artificial
+
+O grupo usou inteligência artificial (Claude) como apoio no desenvolvimento do
+código, do site e da documentação, conforme o professor permitiu.

@@ -1,37 +1,28 @@
-/*
- * insertion_sort.h  -  Ordenacao por INSERCAO
- * Autor: Ronald Cussati Cesar da Fonseca
- * ---------------------------------------------------------------
- * Ideia: funciona como ordenar cartas de baralho na mao. Pega o
- * proximo elemento (a "chave") e "empurra" os maiores que ele para
- * a direita ate achar o lugar certo dentro da parte ja ordenada.
- *
- * Melhor caso (vetor ja crescente) : O(n)
- * Medio e pior caso (decrescente)  : O(n^2)
- */
+/* insertion_sort.h - ordenacao por insercao
+   Responsavel: Ronald Cussati Cesar da Fonseca */
 
 #ifndef INSERTION_SORT_H
 #define INSERTION_SORT_H
 
+/* Pega um elemento de cada vez (a chave) e coloca ele no lugar certo
+   dentro da parte que ja esta ordenada, empurrando os maiores para a direita.
+   Melhor caso (vetor crescente): O(n). Pior caso (decrescente): O(n^2). */
 void insertion_sort(int v[], int n)
 {
     int i, j;
-    int chave;   /* elemento que sera inserido na parte ordenada */
+    int chave;
 
     for (i = 1; i < n; i++)
     {
         chave = v[i];
         j = i - 1;
 
-        /* anda para tras enquanto os elementos forem maiores que a chave,
-           deslocando cada um deles uma posicao para a direita */
         while (j >= 0 && v[j] > chave)
         {
             v[j + 1] = v[j];
             j--;
         }
 
-        /* achou o lugar: coloca a chave nele */
         v[j + 1] = chave;
     }
 }

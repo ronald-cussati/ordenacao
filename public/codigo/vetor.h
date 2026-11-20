@@ -1,27 +1,19 @@
-/*
- * vetor.h  -  Funcoes para mexer nos vetores
- * ---------------------------------------------------------------
- * gerar_vetor()   preenche o vetor (aleatorio, crescente ou decrescente)
- * copiar_vetor()  copia um vetor para outro (backup e restauracao)
- * esta_ordenado() confere se o vetor ficou em ordem crescente
- */
+/* vetor.h - funcoes para gerar, copiar e conferir o vetor */
 
 #ifndef VETOR_H
 #define VETOR_H
 
 #include <stdlib.h>
 
-/* Gera um numero aleatorio grande.
-   rand() no Windows so vai ate 32767, entao juntamos duas chamadas
-   para conseguir numeros de 0 ate 999999. */
+/* rand() no Windows so vai ate 32767, entao junta duas chamadas
+   para sortear numeros de 0 ate 999999 */
 int numero_aleatorio(void)
 {
     long long x = (long long)rand() * 32768 + rand();
     return (int)(x % 1000000);
 }
 
-/* Preenche o vetor de acordo com o tipo escolhido:
-   tipo 1 = aleatorio, tipo 2 = crescente, tipo 3 = decrescente */
+/* tipo 1 = aleatorio, 2 = crescente, 3 = decrescente */
 void gerar_vetor(int v[], int n, int tipo)
 {
     int i;
@@ -30,21 +22,20 @@ void gerar_vetor(int v[], int n, int tipo)
     {
         if (tipo == 1)
         {
-            v[i] = numero_aleatorio();   /* sorteado */
+            v[i] = numero_aleatorio();
         }
         else if (tipo == 2)
         {
-            v[i] = i + 1;                /* 1, 2, 3, ... n   */
+            v[i] = i + 1;
         }
         else
         {
-            v[i] = n - i;                /* n, n-1, ... , 1  */
+            v[i] = n - i;
         }
     }
 }
 
-/* Copia o vetor "origem" para o vetor "destino".
-   E usada para fazer o backup e para restaurar o vetor. */
+/* usada para fazer o backup e para restaurar o vetor */
 void copiar_vetor(int origem[], int destino[], int n)
 {
     int i;
@@ -54,9 +45,7 @@ void copiar_vetor(int origem[], int destino[], int n)
     }
 }
 
-/* Confere se o vetor esta em ordem crescente.
-   Devolve 1 se estiver ordenado e 0 se nao estiver.
-   Esta conferencia acontece FORA da medicao de tempo. */
+/* devolve 1 se o vetor esta em ordem crescente, 0 se nao esta */
 int esta_ordenado(int v[], int n)
 {
     int i;
