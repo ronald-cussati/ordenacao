@@ -1,8 +1,8 @@
 /*
  * demo.js — simulador no navegador.
  * Conversa com o sort-worker.js: o usuário escolhe tipo, tamanho e
- * repetições; os três algoritmos rodam no mesmo vetor (restaurado do
- * backup) e a tela mostra início, fim e tempo de cada um.
+ * repetições; os três algoritmos rodam AO MESMO TEMPO (um worker para cada),
+ * todos com o mesmo vetor, e a tela mostra início, fim e tempo de cada um.
  */
 (function () {
   "use strict";
@@ -10,14 +10,14 @@
     var raiz = document.getElementById("simulador");
     if (!raiz) { return; }
 
-    var estado = { tipo: "aleatorio", n: 1000, reps: 1, worker: null, rodando: false };
+    var estado = { tipo: "aleatorio", n: 1000, reps: 1, workers: [], rodando: false };
     var btnRodar = raiz.querySelector("#sim-rodar");
     var btnParar = raiz.querySelector("#sim-parar");
     var aviso = raiz.querySelector("#sim-aviso");
     var log = raiz.querySelector("#sim-log");
     var cartoes = ED.algoritmos.map(function (_, i) { return raiz.querySelector("[data-alg='" + i + "']"); });
     var inputReps = raiz.querySelector("#sim-reps");
-    var relogio = null, tIni = 0;
+    var relogios = [null, null, null], tInis = [0, 0, 0];
 
     /* seleção de tipo e tamanho (botões segmentados) */
     function ligarSeg(seletor, atributo, cb) {
@@ -79,12 +79,13 @@
       log.scrollTop = log.scrollHeight;
     }
 
-    function pararRelogio() { if (relogio) { clearInterval(relogio); relogio = null; } }
+    function pararRelogio(a) { if (relogios[a]) { clearInterval(relogios[a]); relogios[a] = null; } }
 
     function finalizar(cancelado) {
-      pararRelogio();
+      estado.workers.forEach(function (w) { w.terminate(); });
+      [0, 1, 2].forEach(pararRelogio);
       estado.rodando = false;
-      estado.worker = null;
+      estado.workers = [];
       btnRodar.disabled = false;
       btnParar.classList.add("oculto");
       raiz.classList.remove("rodando");
@@ -100,7 +101,6 @@
     }
 
     btnParar.addEventListener("click", function () {
-      if (estado.worker) { estado.worker.terminate(); }
       finalizar(true);
     });
 
@@ -114,11 +114,10 @@
       if (log) { log.textContent = ""; }
       escrever("vetor " + estado.tipo + " com " + ED.int(estado.n) + " elementos — " + estado.reps + " repetição(ões)");
 
-      var somas = [0, 0, 0], medias = [[], [], []];
-      var w = new Worker("js/sort-worker.js");
-      estado.worker = w;
+      var somas = [0, 0, 0], medias = [[], [], []], terminados = 0;
+      var semente = Math.floor(Math.random() * 4000000000);   // a mesma para os 3: mesmo vetor
 
-      w.onmessage = function (e) {
+      function tratar(e) {
         var m = e.data;
         if (m.tipo === "inicio") {
           var c = cartoes[m.alg];
@@ -126,16 +125,16 @@
           c.classList.add("rodando");
           c.querySelector(".alg-estado").textContent = estado.reps > 1 ? "rodando " + m.rep + "/" + estado.reps : "rodando…";
           definirProgresso(c, ((m.rep - 1) / estado.reps) * 100);
-          tIni = performance.now();
-          pararRelogio();
-          relogio = setInterval(function () {
-            c.querySelector(".alg-tempo").textContent = ED.ms(performance.now() - tIni);
+          tInis[m.alg] = performance.now();
+          pararRelogio(m.alg);
+          relogios[m.alg] = setInterval(function () {
+            c.querySelector(".alg-tempo").textContent = ED.ms(performance.now() - tInis[m.alg]);
           }, 50);
         } else if (m.tipo === "progresso") {
           /* com várias repetições, a barra do cartão avança de repetição em repetição */
           definirProgresso(cartoes[m.alg], ((m.rep - 1) + m.pct / 100) / estado.reps * 100);
         } else if (m.tipo === "fim") {
-          pararRelogio();
+          pararRelogio(m.alg);
           var card = cartoes[m.alg];
           card.classList.remove("rodando");
           card.classList.add("pronto");
@@ -148,15 +147,27 @@
           card.querySelector(".alg-horas").textContent = "início " + m.inicio + " · fim " + m.fim;
           escrever(ED.algoritmos[m.alg] + " " + m.ms.toFixed(3) + " ms   (início " + m.inicio + " | fim " + m.fim + ")");
         } else if (m.tipo === "tudo") {
-          if (estado.reps > 1) {
-            escrever("MÉDIA de " + estado.reps + " repetições:");
-            ED.algoritmos.forEach(function (nome, i) { escrever(nome + " " + somas[i].toFixed(3) + " ms"); });
+          terminados++;
+          if (terminados === 3) {
+            if (estado.reps > 1) {
+              escrever("MÉDIA de " + estado.reps + " repetições:");
+              ED.algoritmos.forEach(function (nome, i) { escrever(nome + " " + somas[i].toFixed(3) + " ms"); });
+            }
+            finalizar(false);
           }
-          finalizar(false);
         }
-      };
-      w.onerror = function () { escrever("Erro no worker."); finalizar(true); };
-      w.postMessage({ tipo: estado.tipo, n: estado.n, reps: estado.reps });
+      }
+
+      /* um worker para cada algoritmo: os três começam juntos */
+      for (var a = 0; a < 3; a++) {
+        var w = new Worker("js/sort-worker.js");
+        w.onmessage = tratar;
+        w.onerror = function () { escrever("Erro no worker."); finalizar(true); };
+        estado.workers.push(w);
+      }
+      estado.workers.forEach(function (w, i) {
+        w.postMessage({ alg: i, tipo: estado.tipo, n: estado.n, reps: estado.reps, semente: semente });
+      });
     });
   });
 })();

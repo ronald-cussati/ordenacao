@@ -3,8 +3,12 @@
  * (Web Worker), para a tela não congelar durante ordenações longas.
  *
  * É a mesma lógica do programa em C (sort.h), traduzida para JavaScript:
- * gera o vetor, guarda um backup, restaura o backup antes de cada
- * algoritmo e mede o tempo SOMENTE da ordenação.
+ * gera o vetor, guarda um backup, restaura o backup antes do algoritmo
+ * e mede o tempo SOMENTE da ordenação.
+ *
+ * Cada worker roda UM algoritmo. A página abre três workers ao mesmo tempo
+ * (selection, insertion e bubble em paralelo). Todos recebem a mesma
+ * "semente", então geram exatamente o mesmo vetor a cada repetição.
  * Nada é simulado: o tempo mostrado é o tempo real gasto no seu navegador.
  *
  * Para mostrar a barra de porcentagem, cada algoritmo trabalha em
@@ -61,9 +65,22 @@ function fracao(alg, tipo, k, total) {
   return 1 - (1 - x) * (1 - x);
 }
 
-function gerar(v, n, tipo) {
+/* gerador de números aleatórios com semente (mulberry32):
+   a mesma semente sempre dá a mesma sequência */
+function criarSorteio(semente) {
+  var s = semente >>> 0;
+  return function () {
+    s = (s + 0x6D2B79F5) >>> 0;
+    var t = s;
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+function gerar(v, n, tipo, sorteio) {
   for (var i = 0; i < n; i++) {
-    if (tipo === "aleatorio") { v[i] = Math.floor(Math.random() * 1000000); }
+    if (tipo === "aleatorio") { v[i] = Math.floor(sorteio() * 1000000); }
     else if (tipo === "crescente") { v[i] = i + 1; }
     else { v[i] = n - i; }
   }
@@ -106,25 +123,23 @@ async function medir(a, v, n, tipo, rep) {
 }
 
 onmessage = async function (e) {
-  var cfg = e.data;
+  var cfg = e.data;                   // { alg, tipo, n, reps, semente }
   var n = cfg.n;
   var original = new Int32Array(n);   // vetor gerado (fica de backup)
   var v = new Int32Array(n);          // vetor que será ordenado
 
   for (var r = 1; r <= cfg.reps; r++) {
-    gerar(original, n, cfg.tipo);     // novo vetor a cada repetição
-    for (var a = 0; a < ALGORITMOS.length; a++) {
-      v.set(original);                // restaura o backup
+    gerar(original, n, cfg.tipo, criarSorteio(cfg.semente + r * 7919));   // novo vetor a cada repetição
+    v.set(original);                  // restaura o backup
 
-      postMessage({ tipo: "inicio", alg: a, rep: r });
-      var res = await medir(a, v, n, cfg.tipo, r);
+    postMessage({ tipo: "inicio", alg: cfg.alg, rep: r });
+    var res = await medir(cfg.alg, v, n, cfg.tipo, r);
 
-      postMessage({
-        tipo: "fim", alg: a, rep: r,
-        ms: res.ms, inicio: res.inicio, fim: res.fim,
-        ok: estaOrdenado(v, n)        // conferência fora da medição
-      });
-    }
+    postMessage({
+      tipo: "fim", alg: cfg.alg, rep: r,
+      ms: res.ms, inicio: res.inicio, fim: res.fim,
+      ok: estaOrdenado(v, n)          // conferência fora da medição
+    });
   }
-  postMessage({ tipo: "tudo" });
+  postMessage({ tipo: "tudo", alg: cfg.alg });
 };
