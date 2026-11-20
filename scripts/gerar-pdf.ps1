@@ -36,6 +36,8 @@ Start-Sleep -Seconds 2
 try {
   $saida = Join-Path $raiz "public\downloads\Documentacao-Grupo-Ordenacao.pdf"
   $perfil = Join-Path $env:TEMP "perfil-pdf-ordenacao"
+  # perfil novo a cada vez, senão o navegador reaproveita CSS/JS antigos do cache
+  if (Test-Path $perfil) { Remove-Item $perfil -Recurse -Force -ErrorAction SilentlyContinue }
   Start-Process -FilePath $navegador -Wait -NoNewWindow -ArgumentList @(
     "--headless=new", "--disable-gpu", "--no-pdf-header-footer",
     "--user-data-dir=`"$perfil`"", "--virtual-time-budget=25000",

@@ -404,6 +404,12 @@ footer.rodape { margin-top: 112px; }
   .doc h2 { break-after: avoid; page-break-after: avoid; margin-top: 8px; }
   .doc h3, .doc h4 { break-after: avoid; page-break-after: avoid; }
   .fig, .caixa, .graf-par, .passo, figure { break-inside: avoid; page-break-inside: avoid; }
+  /* gráficos e figuras menores no PDF, para não sobrar espaço em branco no fim das páginas */
+  .graf-par svg { max-height: 64mm; }
+  .graf-doc { margin-bottom: 6px; }
+  .fig svg { max-height: 78mm; max-width: 80%; display: block; margin: 0 auto; }
+  .fig { padding: 10px 14px; }
+  .doc p:has(+ .fig) { break-after: avoid; page-break-after: avoid; }
   .trio, .passos { grid-template-columns: repeat(3, 1fr) !important; }
   .trio .cartao { padding: 14px 16px; }
   .doc .tabela-wrap { overflow: visible; }

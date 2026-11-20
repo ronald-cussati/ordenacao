@@ -50,8 +50,3 @@ ordenacao --bateria resultados.csv 100 1000 10000 100000 1000000
 
 Feche os outros programas durante o teste. Com 1.000.000 de elementos cada
 algoritmo leva de vários minutos a dezenas de minutos.
-
-## Uso de inteligência artificial
-
-O grupo usou inteligência artificial (Claude) como apoio no desenvolvimento do
-código, do site e da documentação, conforme o professor permitiu.
