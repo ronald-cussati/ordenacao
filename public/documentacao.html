@@ -28,7 +28,7 @@
         <a class="atual" href="documentacao.html">Documentação</a>
       </nav>
       <button class="btn-tema" data-tema aria-label="Alternar tema claro e escuro" title="Alternar tema">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="ico-tema" viewBox="0 0 24 24" aria-hidden="true"><defs><mask id="mascara-lua"><rect width="24" height="24" fill="#fff"/><circle class="corte" cx="12" cy="12" r="7.5" fill="#000"/></mask></defs><g mask="url(#mascara-lua)"><circle class="disco" cx="12" cy="12" r="5" fill="currentColor"/></g><g class="raios" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 1.5v3M12 19.5v3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M1.5 12h3M19.5 12h3M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1"/></g></svg>
       </button>
       <button class="burger" aria-label="Abrir menu" aria-expanded="false">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
@@ -150,8 +150,15 @@
           <table class="tabela tabela-doc">
             <thead><tr><th>Arquivo</th><th>Conteúdo</th></tr></thead>
             <tbody>
-              <tr><td><code>sort.h</code></td><td>A <strong>biblioteca de ordenação</strong>: reúne os três algoritmos (<code>selection_sort</code>, <code>insertion_sort</code> e <code>bubble_sort</code>) no mesmo arquivo, como pede o enunciado. Tem proteção contra inclusão repetida (<code>#ifndef SORT_H</code>).</td></tr>
-              <tr><td><code>main.c</code></td><td>O programa de testes: menu, geração dos vetores, backup/restauração, cronômetro, conferência do resultado e gravação do CSV. Faz <code>#include "sort.h"</code>.</td></tr>
+              <tr><td><code>selection_sort.h</code></td><td>Ordenação por seleção. Código de <strong>Alvino Mainette Santos</strong>.</td></tr>
+              <tr><td><code>insertion_sort.h</code></td><td>Ordenação por inserção. Código de <strong>Ronald Cussati Cesar da Fonseca</strong>.</td></tr>
+              <tr><td><code>bubble_sort.h</code></td><td>Ordenação por bolha. Código de <strong>Thalys Cestari Thouzo</strong>.</td></tr>
+              <tr><td><code>sort.h</code></td><td>A <strong>biblioteca de ordenação</strong>: junta os três algoritmos com <code>#include</code> (cada um fica no seu arquivo). Tem proteção contra inclusão repetida (<code>#ifndef SORT_H</code>).</td></tr>
+              <tr><td><code>vetor.h</code></td><td>Funções do vetor: gerar (aleatório, crescente ou decrescente), copiar (backup e restauração) e conferir se ficou ordenado.</td></tr>
+              <tr><td><code>tempo.h</code></td><td>Cronômetro em milissegundos e horário de início e de fim.</td></tr>
+              <tr><td><code>teste.h</code></td><td>Executa os testes: chama o algoritmo, mede o tempo, mostra os resultados e grava o CSV.</td></tr>
+              <tr><td><code>main.c</code></td><td>O programa principal: o menu. Faz <code>#include "teste.h"</code>.</td></tr>
+              <tr><td><code>README.md</code></td><td>Explica os arquivos, como compilar e como usar.</td></tr>
             </tbody>
           </table>
         </div>
@@ -193,18 +200,18 @@
           <table class="tabela tabela-doc">
             <thead><tr><th>Função</th><th>Onde</th><th>O que faz</th></tr></thead>
             <tbody>
-              <tr><td><code>selection_sort(v, n)</code></td><td>sort.h</td><td>Em cada passada <code>i</code>, procura o menor elemento entre <code>i+1</code> e <code>n-1</code> e o troca com <code>v[i]</code>. Depois de <code>i</code> passadas, as primeiras <code>i</code> posições já estão definitivas.</td></tr>
-              <tr><td><code>insertion_sort(v, n)</code></td><td>sort.h</td><td>Guarda <code>v[i]</code> como <code>chave</code>, desloca para a direita todos os elementos maiores que ela dentro da parte já ordenada e coloca a chave no espaço aberto.</td></tr>
-              <tr><td><code>bubble_sort(v, n)</code></td><td>sort.h</td><td>Compara cada par vizinho <code>v[j]</code> e <code>v[j+1]</code> e troca se estiverem fora de ordem. A cada passada o maior elemento restante vai para o fim. Versão básica, sem parada antecipada.</td></tr>
-              <tr><td><code>agora_ms()</code></td><td>main.c</td><td>Devolve o tempo atual em milissegundos, com casas decimais, usando o contador de alta resolução do sistema.</td></tr>
-              <tr><td><code>horario_atual(texto)</code></td><td>main.c</td><td>Escreve data e hora do relógio no texto, para mostrar o <strong>início</strong> e o <strong>fim</strong> de cada ordenação.</td></tr>
-              <tr><td><code>numero_aleatorio()</code></td><td>main.c</td><td>Combina duas chamadas de <code>rand()</code> para sortear números de 0 a 999.999.</td></tr>
-              <tr><td><code>gerar_vetor(v, n, tipo)</code></td><td>main.c</td><td>Preenche o vetor conforme o tipo: 1 = aleatório, 2 = crescente, 3 = decrescente.</td></tr>
-              <tr><td><code>copiar_vetor(origem, destino, n)</code></td><td>main.c</td><td>Copia um vetor para outro. Faz o backup e a restauração.</td></tr>
-              <tr><td><code>esta_ordenado(v, n)</code></td><td>main.c</td><td>Devolve 1 se o vetor está em ordem crescente e 0 se não está. Prova que o algoritmo realmente ordenou.</td></tr>
-              <tr><td><code>executar_algoritmo(alg, v, n, ini, fim)</code></td><td>main.c</td><td>Chama o algoritmo escolhido entre <code>t_inicio = agora_ms()</code> e <code>t_fim = agora_ms()</code> e devolve a diferença.</td></tr>
-              <tr><td><code>testar(tipo, n, repeticoes, csv)</code></td><td>main.c</td><td>Executa um teste completo: gera, faz backup, restaura, mede os três algoritmos, mostra os tempos e a média e (opcionalmente) grava no CSV.</td></tr>
-              <tr><td><code>bateria_completa(arquivo, lista, qtd)</code></td><td>main.c</td><td>Roda todos os tipos para os tamanhos informados e grava o arquivo CSV, uma linha por medição.</td></tr>
+              <tr><td><code>selection_sort(v, n)</code></td><td>selection_sort.h</td><td>Em cada passada <code>i</code>, procura o menor elemento entre <code>i+1</code> e <code>n-1</code> e o troca com <code>v[i]</code>. Depois de <code>i</code> passadas, as primeiras <code>i</code> posições já estão definitivas.</td></tr>
+              <tr><td><code>insertion_sort(v, n)</code></td><td>insertion_sort.h</td><td>Guarda <code>v[i]</code> como <code>chave</code>, desloca para a direita todos os elementos maiores que ela dentro da parte já ordenada e coloca a chave no espaço aberto.</td></tr>
+              <tr><td><code>bubble_sort(v, n)</code></td><td>bubble_sort.h</td><td>Compara cada par vizinho <code>v[j]</code> e <code>v[j+1]</code> e troca se estiverem fora de ordem. A cada passada o maior elemento restante vai para o fim. Versão básica, sem parada antecipada.</td></tr>
+              <tr><td><code>agora_ms()</code></td><td>tempo.h</td><td>Devolve o tempo atual em milissegundos, com casas decimais, usando o contador de alta resolução do sistema.</td></tr>
+              <tr><td><code>horario_atual(texto)</code></td><td>tempo.h</td><td>Escreve data e hora do relógio no texto, para mostrar o <strong>início</strong> e o <strong>fim</strong> de cada ordenação.</td></tr>
+              <tr><td><code>numero_aleatorio()</code></td><td>vetor.h</td><td>Combina duas chamadas de <code>rand()</code> para sortear números de 0 a 999.999.</td></tr>
+              <tr><td><code>gerar_vetor(v, n, tipo)</code></td><td>vetor.h</td><td>Preenche o vetor conforme o tipo: 1 = aleatório, 2 = crescente, 3 = decrescente.</td></tr>
+              <tr><td><code>copiar_vetor(origem, destino, n)</code></td><td>vetor.h</td><td>Copia um vetor para outro. Faz o backup e a restauração.</td></tr>
+              <tr><td><code>esta_ordenado(v, n)</code></td><td>vetor.h</td><td>Devolve 1 se o vetor está em ordem crescente e 0 se não está. Prova que o algoritmo realmente ordenou.</td></tr>
+              <tr><td><code>executar_algoritmo(alg, v, n, ini, fim)</code></td><td>teste.h</td><td>Chama o algoritmo escolhido entre <code>t_inicio = agora_ms()</code> e <code>t_fim = agora_ms()</code> e devolve a diferença.</td></tr>
+              <tr><td><code>testar(tipo, n, repeticoes, csv)</code></td><td>teste.h</td><td>Executa um teste completo: gera, faz backup, restaura, mede os três algoritmos, mostra os tempos e a média e (opcionalmente) grava no CSV.</td></tr>
+              <tr><td><code>bateria_completa(arquivo, lista, qtd)</code></td><td>teste.h</td><td>Roda todos os tipos para os tamanhos informados e grava o arquivo CSV, uma linha por medição.</td></tr>
               <tr><td><code>ler_inteiro()</code></td><td>main.c</td><td>Lê um número do teclado; se o usuário digitar letras, avisa e pede de novo (evita travar o programa).</td></tr>
             </tbody>
           </table>
@@ -352,10 +359,22 @@ bubble sort 96.186 ms   (inicio 2026-11-19 08:50:22 | fim 2026-11-19 08:50:22)</
       <!-- ============ ANEXOS ============ -->
       <section id="anexo-a">
         <h2 class="revelar"><span class="sec-n">A</span>Anexo A — Código-fonte</h2>
+        <h3>selection_sort.h</h3>
+        <div class="cod-janela"><pre class="cod" data-anexo="selection_sort.h"><code>Carregando…</code></pre></div>
+        <h3>insertion_sort.h</h3>
+        <div class="cod-janela"><pre class="cod" data-anexo="insertion_sort.h"><code>Carregando…</code></pre></div>
+        <h3>bubble_sort.h</h3>
+        <div class="cod-janela"><pre class="cod" data-anexo="bubble_sort.h"><code>Carregando…</code></pre></div>
         <h3>sort.h</h3>
-        <div class="cod-janela"><pre class="cod" id="anexo-sort"><code>Carregando…</code></pre></div>
+        <div class="cod-janela"><pre class="cod" data-anexo="sort.h"><code>Carregando…</code></pre></div>
+        <h3>vetor.h</h3>
+        <div class="cod-janela"><pre class="cod" data-anexo="vetor.h"><code>Carregando…</code></pre></div>
+        <h3>tempo.h</h3>
+        <div class="cod-janela"><pre class="cod" data-anexo="tempo.h"><code>Carregando…</code></pre></div>
+        <h3>teste.h</h3>
+        <div class="cod-janela"><pre class="cod" data-anexo="teste.h"><code>Carregando…</code></pre></div>
         <h3>main.c</h3>
-        <div class="cod-janela"><pre class="cod" id="anexo-main"><code>Carregando…</code></pre></div>
+        <div class="cod-janela"><pre class="cod" data-anexo="main.c"><code>Carregando…</code></pre></div>
       </section>
 
       <section id="anexo-b">

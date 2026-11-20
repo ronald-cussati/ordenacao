@@ -39,6 +39,12 @@
     }).join("");
   }
 
+  function numerar(texto) {
+    return texto.split("\n").map(function (l, i) {
+      return "<span class='lin'><span class='n'>" + (i + 1) + "</span>" + esc(l) + "</span>";
+    }).join("");
+  }
+
   ED.codigo = {
     cache: {},
     carregar: function (url) {
@@ -51,7 +57,8 @@
     },
     mostrar: function (pre, url) {
       return ED.codigo.carregar(url).then(function (t) {
-        pre.querySelector("code").innerHTML = realcar(t);
+        /* README.md é texto comum: mostra com numeração, mas sem realce de C */
+        pre.querySelector("code").innerHTML = url.slice(-3) === ".md" ? numerar(t) : realcar(t);
         return t;
       }).catch(function () {
         pre.querySelector("code").textContent = "Não foi possível carregar " + url;

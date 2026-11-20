@@ -169,13 +169,24 @@ h2.titulo { font-size: clamp(1.6rem, 3vw, 2.1rem); margin: 8px 0 12px; }
 .alg-estado { font-size: .78rem; color: var(--mudo); font-family: var(--fonte-mono); }
 .alg-tempo { font-family: var(--fonte-mono); font-size: clamp(1.1rem, 2.4vw, 1.5rem); font-weight: 500; text-align: right; font-variant-numeric: tabular-nums; }
 .alg-horas { font-size: .78rem; color: var(--mudo); font-family: var(--fonte-mono); grid-column: 1; }
-.alg-barra { grid-column: 1 / -1; height: 4px; border-radius: 2px; background: var(--surface-2); margin-top: 10px; overflow: hidden; }
-.alg-barra i { display: block; height: 100%; width: 0; background: var(--c); transition: width .6s ease; }
+.alg-prog { grid-column: 1 / -1; display: flex; align-items: center; gap: 12px; margin-top: 12px; }
+.alg-barra { flex: 1; height: 8px; border-radius: 4px; background: var(--surface-2); overflow: hidden; }
+.alg-barra i { display: block; height: 100%; width: 0; border-radius: 4px; background: var(--c); transition: width .35s ease-out; }
+.alg-pct { min-width: 3.4ch; text-align: right; font: 500 .82rem var(--fonte-mono); color: var(--mudo); font-variant-numeric: tabular-nums; }
+.alg-card { transition: border-color .25s ease; }
 .alg-card.rodando { border-color: var(--c); }
-.alg-card.rodando .alg-estado { color: var(--c); }
-.alg-card.rodando .alg-barra i { width: 35% !important; animation: varre 1.4s ease-in-out infinite; }
-@keyframes varre { 0% { transform: translateX(-100%); } 100% { transform: translateX(300%); } }
-.alg-card.pronto .alg-estado { color: var(--ok); }
+.alg-card.rodando .alg-estado, .alg-card.rodando .alg-pct { color: var(--c); }
+.alg-card.pronto .alg-estado, .alg-card.pronto .alg-pct { color: var(--ok); }
+
+/* ---------- botão de tema: sol vira lua ---------- */
+.ico-tema { width: 20px; height: 20px; overflow: visible; transition: transform .6s cubic-bezier(.4, 0, .2, 1); }
+.ico-tema .disco { transform-origin: 12px 12px; transition: transform .6s cubic-bezier(.4, 0, .2, 1); }
+.ico-tema .corte { transform: translate(18px, -18px); transition: transform .6s cubic-bezier(.4, 0, .2, 1); }
+.ico-tema .raios { transform-origin: 12px 12px; transition: transform .6s cubic-bezier(.4, 0, .2, 1), opacity .35s ease; }
+:root[data-theme="dark"] .ico-tema { transform: rotate(-40deg); }
+:root[data-theme="dark"] .ico-tema .disco { transform: scale(1.75); }
+:root[data-theme="dark"] .ico-tema .corte { transform: translate(6px, -6px); }
+:root[data-theme="dark"] .ico-tema .raios { transform: rotate(60deg) scale(.4); opacity: 0; }
 .console { font-family: var(--fonte-mono); font-size: .8rem; background: var(--codigo-bg); border: 1px solid var(--borda); border-radius: 8px; padding: 14px 16px; min-height: 110px; max-height: 210px; overflow: auto; white-space: pre-wrap; color: var(--texto-2); margin: 0; }
 .console:empty::before { content: "aguardando execução…"; color: var(--mudo); }
 .nota { font-size: .86rem; color: var(--mudo); margin-top: 12px; max-width: 80ch; }
@@ -323,6 +334,9 @@ h3.sub { font-size: 1.1rem; margin: 56px 0 6px; }
 .algs h3 i { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
 .algs p { color: var(--texto-2); font-size: .95rem; margin: 0 0 8px; }
 .algs small { display: block; color: var(--mudo); font-size: .84rem; }
+.algs .autor { display: block; margin-top: 10px; font: 500 .8rem var(--fonte-mono); color: var(--texto-2); }
+.cod-autor { margin-left: auto; color: var(--texto-2); }
+.cod-autor:empty { display: none; }
 
 .sim-ctrl { border: 0; padding: 0; background: transparent; }
 .alg-card { padding: 14px 18px; }

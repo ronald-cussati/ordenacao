@@ -62,7 +62,15 @@
         c.querySelector(".alg-estado").textContent = "aguardando";
         c.querySelector(".alg-horas").textContent = "início — · fim —";
         c.querySelector(".alg-barra i").style.width = "0%";
+        c.querySelector(".alg-pct").textContent = "0%";
       });
+    }
+
+    /* barra de porcentagem do cartão: pct vai de 0 a 100 */
+    function definirProgresso(card, pct) {
+      pct = Math.max(0, Math.min(100, pct));
+      card.querySelector(".alg-barra i").style.width = pct + "%";
+      card.querySelector(".alg-pct").textContent = Math.floor(pct) + "%";
     }
 
     function escrever(linha) {
@@ -106,7 +114,7 @@
       if (log) { log.textContent = ""; }
       escrever("vetor " + estado.tipo + " com " + ED.int(estado.n) + " elementos — " + estado.reps + " repetição(ões)");
 
-      var somas = [0, 0, 0], maiorMs = 0, medias = [[], [], []];
+      var somas = [0, 0, 0], medias = [[], [], []];
       var w = new Worker("js/sort-worker.js");
       estado.worker = w;
 
@@ -117,11 +125,15 @@
           c.classList.remove("pronto");
           c.classList.add("rodando");
           c.querySelector(".alg-estado").textContent = estado.reps > 1 ? "rodando " + m.rep + "/" + estado.reps : "rodando…";
+          definirProgresso(c, ((m.rep - 1) / estado.reps) * 100);
           tIni = performance.now();
           pararRelogio();
           relogio = setInterval(function () {
             c.querySelector(".alg-tempo").textContent = ED.ms(performance.now() - tIni);
           }, 50);
+        } else if (m.tipo === "progresso") {
+          /* com várias repetições, a barra do cartão avança de repetição em repetição */
+          definirProgresso(cartoes[m.alg], ((m.rep - 1) + m.pct / 100) / estado.reps * 100);
         } else if (m.tipo === "fim") {
           pararRelogio();
           var card = cartoes[m.alg];
@@ -130,13 +142,10 @@
           medias[m.alg].push(m.ms);
           var media = medias[m.alg].reduce(function (s, x) { return s + x; }, 0) / medias[m.alg].length;
           somas[m.alg] = media;
-          maiorMs = Math.max.apply(null, somas);
+          definirProgresso(card, (m.rep / estado.reps) * 100);
           card.querySelector(".alg-tempo").textContent = ED.ms(media);
           card.querySelector(".alg-estado").textContent = (m.ok ? "ordenado ✓" : "ERRO") + (estado.reps > 1 ? " · média de " + medias[m.alg].length : "");
           card.querySelector(".alg-horas").textContent = "início " + m.inicio + " · fim " + m.fim;
-          cartoes.forEach(function (cc, i) {
-            cc.querySelector(".alg-barra i").style.width = maiorMs > 0 ? (somas[i] / maiorMs) * 100 + "%" : "0%";
-          });
           escrever(ED.algoritmos[m.alg] + " " + m.ms.toFixed(3) + " ms   (início " + m.inicio + " | fim " + m.fim + ")");
         } else if (m.tipo === "tudo") {
           if (estado.reps > 1) {

@@ -4,13 +4,20 @@
  *
  * É a mesma lógica do programa em C (sort.h), traduzida para JavaScript:
  * gera o vetor, guarda um backup, restaura o backup antes de cada
- * algoritmo e mede o tempo SOMENTE da chamada da função de ordenação.
+ * algoritmo e mede o tempo SOMENTE da ordenação.
  * Nada é simulado: o tempo mostrado é o tempo real gasto no seu navegador.
+ *
+ * Para mostrar a barra de porcentagem, cada algoritmo trabalha em
+ * "fatias" de passadas do laço externo. Entre uma fatia e outra o worker
+ * avisa o progresso. O tempo de espera entre as fatias NÃO entra na conta:
+ * só o tempo de dentro das fatias é somado.
  */
 
-function selection_sort(v, n) {
+/* Cada função faz as passadas k0 ... k1-1 do laço externo
+   (a mesma lógica do sort.h, só que dividida em pedaços). */
+function selection_sort(v, n, k0, k1) {
   var i, j, menor, aux;
-  for (i = 0; i < n - 1; i++) {
+  for (i = k0; i < k1; i++) {
     menor = i;
     for (j = i + 1; j < n; j++) {
       if (v[j] < v[menor]) { menor = j; }
@@ -19,9 +26,9 @@ function selection_sort(v, n) {
   }
 }
 
-function insertion_sort(v, n) {
+function insertion_sort(v, n, k0, k1) {
   var i, j, chave;
-  for (i = 1; i < n; i++) {
+  for (i = k0 + 1; i < k1 + 1; i++) {      /* a passada k é o elemento i = k + 1 */
     chave = v[i];
     j = i - 1;
     while (j >= 0 && v[j] > chave) { v[j + 1] = v[j]; j--; }
@@ -29,9 +36,9 @@ function insertion_sort(v, n) {
   }
 }
 
-function bubble_sort(v, n) {
+function bubble_sort(v, n, k0, k1) {
   var i, j, aux;
-  for (i = 0; i < n - 1; i++) {
+  for (i = k0; i < k1; i++) {
     for (j = 0; j < n - 1 - i; j++) {
       if (v[j] > v[j + 1]) { aux = v[j]; v[j] = v[j + 1]; v[j + 1] = aux; }
     }
@@ -43,6 +50,16 @@ var ALGORITMOS = [
   { nome: "insertion sort", f: insertion_sort },
   { nome: "bubble sort", f: bubble_sort }
 ];
+
+/* Quanto do trabalho já foi feito (0 a 1) depois de k das "total" passadas.
+   Selection e bubble: as primeiras passadas são as mais longas, então o
+   trabalho feito cresce mais rápido no começo. Insertion: depende do vetor
+   (no crescente quase não há trabalho, nos outros as últimas passadas pesam mais). */
+function fracao(alg, tipo, k, total) {
+  var x = k / total;
+  if (alg === 1) { return tipo === "crescente" ? x : x * x; }
+  return 1 - (1 - x) * (1 - x);
+}
 
 function gerar(v, n, tipo) {
   for (var i = 0; i < n; i++) {
@@ -62,7 +79,33 @@ function hora(d) {
   return p(d.getHours()) + ":" + p(d.getMinutes()) + ":" + p(d.getSeconds());
 }
 
-onmessage = function (e) {
+function esperar() { return new Promise(function (ok) { setTimeout(ok, 0); }); }
+
+/* Ordena com um algoritmo, avisando o progresso. Devolve o tempo em ms. */
+async function medir(a, v, n, tipo, rep) {
+  var total = n - 1;
+  var fatia = Math.max(1, Math.ceil(total / 1000));
+  var gasto = 0;
+  var ultimoAviso = performance.now();
+  var dIni = new Date();
+
+  for (var k = 0; k < total; k += fatia) {
+    var fim = Math.min(total, k + fatia);
+    var t0 = performance.now();                 // <<< começa a contar
+    ALGORITMOS[a].f(v, n, k, fim);
+    gasto += performance.now() - t0;            // <<< para de contar
+
+    /* avisa o progresso no máximo umas 15 vezes por segundo */
+    if (fim < total && performance.now() - ultimoAviso > 70) {
+      postMessage({ tipo: "progresso", alg: a, rep: rep, pct: fracao(a, tipo, fim, total) * 100 });
+      await esperar();
+      ultimoAviso = performance.now();
+    }
+  }
+  return { ms: gasto, inicio: hora(dIni), fim: hora(new Date()) };
+}
+
+onmessage = async function (e) {
   var cfg = e.data;
   var n = cfg.n;
   var original = new Int32Array(n);   // vetor gerado (fica de backup)
@@ -74,15 +117,11 @@ onmessage = function (e) {
       v.set(original);                // restaura o backup
 
       postMessage({ tipo: "inicio", alg: a, rep: r });
-      var dIni = new Date();
-      var t0 = performance.now();     // <<< começa a contar
-      ALGORITMOS[a].f(v, n);
-      var t1 = performance.now();     // <<< para de contar
-      var dFim = new Date();
+      var res = await medir(a, v, n, cfg.tipo, r);
 
       postMessage({
         tipo: "fim", alg: a, rep: r,
-        ms: t1 - t0, inicio: hora(dIni), fim: hora(dFim),
+        ms: res.ms, inicio: res.inicio, fim: res.fim,
         ok: estaOrdenado(v, n)        // conferência fora da medição
       });
     }

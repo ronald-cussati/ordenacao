@@ -174,7 +174,8 @@
     comparacoes();
     indiceAtivo();
 
-    var pendentes = 3;
+    var anexos = document.querySelectorAll("[data-anexo]");
+    var pendentes = 1 + anexos.length;
     function pronto() { if (--pendentes === 0) { window.__docPronto = true; document.documentElement.setAttribute("data-pronto", "1"); } }
 
     ED.carregarDados().then(function (d) {
@@ -183,8 +184,9 @@
       document.addEventListener("tema-mudou", function () { testes(d); });
       pronto();
     });
-    ED.codigo.mostrar(document.getElementById("anexo-sort"), "codigo/sort.h").then(pronto);
-    ED.codigo.mostrar(document.getElementById("anexo-main"), "codigo/main.c").then(pronto);
+    anexos.forEach(function (pre) {
+      ED.codigo.mostrar(pre, "codigo/" + pre.getAttribute("data-anexo")).then(pronto);
+    });
 
     if (modoImpressao) {
       document.querySelectorAll("details").forEach(function (x) { x.open = true; });

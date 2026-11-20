@@ -11,8 +11,13 @@ empírica de tempo (ms) para vetores de 100 a 1.000.000 de elementos
 public/                  ← o site (é a pasta que a Vercel publica)
   index.html             página inicial: visualizador, simulador, resultados, código
   documentacao.html      documentação completa (vira o PDF)
-  codigo/sort.h          biblioteca com os 3 algoritmos
-  codigo/main.c          programa de teste (menu, backup, cronômetro, CSV)
+  codigo/                código em C (veja codigo/README.md)
+    selection_sort.h     selection sort (Alvino)
+    insertion_sort.h     insertion sort (Ronald)
+    bubble_sort.h        bubble sort (Thalys)
+    sort.h               junta os 3 algoritmos
+    vetor.h tempo.h teste.h   vetor/backup, cronômetro, execução dos testes
+    main.c               menu do programa
   data/resultados.json   medições (geradas do CSV)
   downloads/             PDF do grupo e ZIP do código
   js/config.js           ← nomes dos integrantes, turma, link do GitHub
@@ -34,7 +39,7 @@ gcc -O0 main.c -o ordenacao        # -O0 = sem otimização (tempo do algoritmo 
 ./ordenacao --bateria resultados.csv 100 1000 10000 100000 1000000
 ```
 
-Os três algoritmos estão em `sort.h`. O tempo é medido da chamada da função de ordenação
+Cada algoritmo fica no seu arquivo (`selection_sort.h`, `insertion_sort.h`, `bubble_sort.h`) e o `sort.h` junta os três. O tempo é medido da chamada da função de ordenação
 até o seu término; o programa mostra o nome do algoritmo, o horário de início, o de fim e o
 tempo em ms. Para os testes valerem, **feche outros programas** durante a execução.
 

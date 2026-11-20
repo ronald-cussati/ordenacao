@@ -69,12 +69,19 @@
     /* ---------- código ---------- */
     var cod = document.getElementById("cod-pre");
     if (cod) {
-      var arq = "sort.h";
+      var arq = "selection_sort.h";
+      var autores = {
+        "selection_sort.h": "Alvino Mainette Santos",
+        "insertion_sort.h": "Ronald Cussati Cesar da Fonseca",
+        "bubble_sort.h": "Thalys Cestari Thouzo"
+      };
+      var autor = document.getElementById("cod-autor");
       var titulo = document.getElementById("cod-nome");
       var copiar = document.getElementById("cod-copiar");
       var baixar = document.getElementById("cod-baixar");
       var carregar = function () {
         titulo.textContent = arq;
+        autor.textContent = autores[arq] ? "autor: " + autores[arq] : "";
         baixar.setAttribute("href", "codigo/" + arq);
         baixar.setAttribute("download", arq);
         ED.codigo.mostrar(cod, "codigo/" + arq);

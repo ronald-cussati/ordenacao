@@ -15,9 +15,7 @@
 
   function alternarTema() {
     var atual = document.documentElement.getAttribute("data-theme");
-    if (!atual) {
-      atual = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
-    }
+    if (!atual) { atual = "light"; }   /* o site abre no tema claro */
     var novo = atual === "light" ? "dark" : "light";
     document.documentElement.setAttribute("data-theme", novo);
     try { localStorage.setItem("tema", novo); } catch (e) {}
